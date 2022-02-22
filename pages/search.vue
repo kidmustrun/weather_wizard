@@ -19,7 +19,15 @@
             label="Cities"
             placeholder="Start typing to Search"
             prepend-icon="mdi-map-marker"
+            :disabled="!!model"
           ></v-autocomplete>
+                  <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="grey darken-3" @click="model = null">
+            Clear
+            <v-icon right> mdi-close-circle </v-icon>
+          </v-btn>
+        </v-card-actions>
         </v-card-text>
         <v-divider></v-divider>
         <v-expand-transition>
@@ -27,13 +35,7 @@
             <Weather :item="this.items.find((item) => item.value === this.model)"/>
           </v-list>
         </v-expand-transition>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="grey darken-3" @click="model = null">
-            Clear
-            <v-icon right> mdi-close-circle </v-icon>
-          </v-btn>
-        </v-card-actions>
+
       </v-card>
     </v-col>
   </v-row>
@@ -100,7 +102,7 @@ export default {
           this.entries = result.suggestions;
           this.entries = this.entries.filter((item) => item.data.city != null);
           this.isLoading = false;
-          console.log(this.entries);
+          console.log('item changed '+ this.items.find((item) => item.value === this.model))
         })
         .catch((error) => console.log("error", error))
         .finally(() => (this.isLoading = false));
