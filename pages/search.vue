@@ -24,15 +24,7 @@
         <v-divider></v-divider>
         <v-expand-transition>
           <v-list v-if="model" class="purple lighten-3">
-            <v-list-item v-for="(entry, i) in entries" :key="i">
-              <v-list-item-content>
-                
-                <v-list-item-title
-                  @click="value = entry.value"
-                  v-text="entry.value"
-                ></v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+            <Weather :item="this.items.find((item) => item.value === this.model)"/>
           </v-list>
         </v-expand-transition>
         <v-card-actions>
@@ -49,7 +41,10 @@
 
 <script>
 export default {
-  name: "InspirePage",
+  name: "SearchPage",
+    props: [
+    'item'
+  ],
   data: () => ({
     descriptionLimit: 60,
     entries: [],
@@ -68,9 +63,6 @@ export default {
         return Object.assign({}, entry, { Description });
       });
     },
-    item(){
-      return this.items.find(item => item.value === this.model)
-    }
   },
   watch: {
     search(val) {
@@ -106,9 +98,9 @@ export default {
         .then((result) => JSON.parse(result))
         .then((result) => {
           this.entries = result.suggestions;
-          this.entries = this.entries.filter(item => item.data.city != null)
+          this.entries = this.entries.filter((item) => item.data.city != null);
           this.isLoading = false;
-          console.log(this.entries)
+          console.log(this.entries);
         })
         .catch((error) => console.log("error", error))
         .finally(() => (this.isLoading = false));
