@@ -51,7 +51,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Weather Wizard'
+      title: 'Weather Wizard',
     }
   },
   methods:{
