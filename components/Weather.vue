@@ -5,11 +5,11 @@
     <img :src="iconWeather" />
     <img :src="iconWeather" />
     <p>{{ weather.weather[0].description }}</p>
-    <p>Temperature: {{ weather.main.temp }} &#8451;</p>
-    <p>Feels like: {{ weather.main.feels_like }} &#8451;</p>
-    <p>Wind speed: {{ weather.wind.speed }} meter/sec</p>
+    <p>Temperature: {{ Math.round(weather.main.temp) }} &#8451;</p>
+    <p>Feels like: {{ Math.round(weather.main.feels_like) }} &#8451;</p>
+    <p>Wind speed: {{ Math.round(weather.wind.speed) }} meter/sec</p>
     <p v-if="weather.main.grnd_level">
-      Atmospheric pressure on the ground level: {{ weather.main.grnd_level }}
+      Atmospheric pressure on the ground level: {{  Math.round(weather.main.grnd_level*0.750064) }} mm
     </p>
     <p v-if="weather.snow">
      Snow volume for the last 1 hour: {{ weather.snow['1h'] }} mm

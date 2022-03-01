@@ -48,7 +48,6 @@ export default {
     'item'
   ],
   data: () => ({
-    descriptionLimit: 60,
     entries: [],
     isLoading: false,
     model: null,
@@ -89,7 +88,7 @@ export default {
           language: "en",
           locations: [
             {
-              country: "*",
+              country: "*"
             },
           ],
         }),

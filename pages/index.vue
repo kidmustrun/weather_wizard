@@ -8,16 +8,12 @@
         <v-card-text>
           <p>This application will help you determine the current weather anywhere in the world. </p>
           <p>
-            By default, the current installed city is Moscow. Enjoy it!
-          </p>
-          <p>
             If you have any questions, write to me in <a
               href="https://t.me/kidmustrun"
               target="_blank"
               rel="noopener noreferrer"
               title="chat"
-            >Telegram
-            </a>.
+            >Telegram</a>.
           </p>
           <p>Thank you!</p>
         </v-card-text>
