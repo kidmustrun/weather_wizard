@@ -14,28 +14,29 @@
             color="white"
             hide-no-data
             hide-selected
-            item-text="Description"
+            item-text="city"
             item-value="City"
             label="Cities"
             placeholder="Start typing to Search"
             prepend-icon="mdi-map-marker"
             :disabled="!!model"
           ></v-autocomplete>
-                  <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="grey darken-3" @click="model = null">
-            Clear
-            <v-icon right> mdi-close-circle </v-icon>
-          </v-btn>
-        </v-card-actions>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="grey darken-3" @click="model = null">
+              Clear
+              <v-icon right> mdi-close-circle </v-icon>
+            </v-btn>
+          </v-card-actions>
         </v-card-text>
         <v-divider></v-divider>
         <v-expand-transition>
           <v-list v-if="model" class="purple lighten-3">
-            <Weather :item="this.items.find((item) => item.value === this.model)"/>
+            <Weather
+              :item="this.items.find((item) => item.value === this.model)"
+            />
           </v-list>
         </v-expand-transition>
-
       </v-card>
     </v-col>
   </v-row>
@@ -44,11 +45,8 @@
 <script>
 export default {
   name: "SearchPage",
-    props: [
-    'item'
-  ],
+  props: ["item"],
   data: () => ({
-    entries: [],
     isLoading: false,
     model: null,
     search: null,
@@ -56,55 +54,23 @@ export default {
   computed: {
     items() {
       return this.entries.map((entry) => {
-        const Description =
-          entry.value.length > this.descriptionLimit
-            ? entry.value.slice(0, this.descriptionLimit) + "..."
-            : entry.value;
-
-        return Object.assign({}, entry, { Description });
+        const city = entry.value;
+        return Object.assign({}, entry, { city });
       });
+    },
+    entries() {
+      return this.$store.getters.CITIES;
     },
   },
   watch: {
     search(val) {
       if (this.isLoading) return;
-
       this.isLoading = true;
-
-      var url =
-        "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
-      var token = "a2d5555b2f1d378ad3c81329e9456ee099105f43";
-
-      var options = {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: "Token " + token,
-        },
-        body: JSON.stringify({
-          query: val,
-          language: "en",
-          locations: [
-            {
-              country: "*"
-            },
-          ],
-        }),
-      };
-
-      fetch(url, options)
-        .then((response) => response.text())
-        .then((result) => JSON.parse(result))
-        .then((result) => {
-          this.entries = result.suggestions;
-          this.entries = this.entries.filter((item) => item.data.city != null);
-          this.isLoading = false;
-          console.log('item changed '+ this.items.find((item) => item.value === this.model))
-        })
-        .catch((error) => console.log("error", error))
-        .finally(() => (this.isLoading = false));
+      this.$store.dispatch("getCities", val);
+      this.isLoading = false;
+      console.log(
+        "item changed " + this.items.find((item) => item.value === this.model)
+      );
     },
   },
 };

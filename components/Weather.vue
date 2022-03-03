@@ -23,19 +23,19 @@
 export default {
   name: "Weather",
   props: ["item"],
-  data: () => {
-    return {
-      weather: {},
-      iconWeather: null,
-    };
+  computed: {
+    weather() {
+      return this.$store.getters.WEATHER;
+    },
+    iconWeather() {
+      return `http://openweathermap.org/img/wn/${this.weather.weather[0].icon}.png`;
+    },
   },
   async fetch() {
-    this.weather = await this.$store.dispatch("getWeather", {
+    this.$store.dispatch("getWeather", {
       lat: this.item.data.geo_lat,
       lon: this.item.data.geo_lon,
     });
-    console.log(this.weather)
-    this.iconWeather = `http://openweathermap.org/img/wn/${this.weather.weather[0].icon}.png`;
   },
 };
 </script>
